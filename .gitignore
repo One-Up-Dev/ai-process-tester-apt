@@ -11,3 +11,5 @@ standards/
 templates/
 .turbo
 .DS_Store
+apt.db-shm
+apt.db-wal
