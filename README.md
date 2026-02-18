@@ -4,6 +4,8 @@ Automated evaluation pipeline for LLMs and AI systems. Runs a calibrated test su
 
 ![APT Report Preview](docs/report-preview.png)
 
+> **Important:** Automated scores are a starting point, not a final verdict. Some evaluators (e.g. `llm-judge`) use heuristics that can produce false positives or miss subtle failures. **A human review of the generated report is required** — open the HTML report, verify each test result, override incorrect verdicts, and add notes before using the scores for any decision.
+
 ## How it works
 
 APT runs a 5-module pipeline:
