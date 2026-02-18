@@ -162,7 +162,6 @@ describe("CLI help and stubs", () => {
     // Import the CLI module and verify all subcommands are defined
     const initCmd = await import("@apt/cli/commands/init");
     const runCmd = await import("@apt/cli/commands/run");
-    const compareCmd = await import("@apt/cli/commands/compare");
     const reportCmd = await import("@apt/cli/commands/report");
     const introspectCmd = await import("@apt/cli/commands/introspect");
     const exportCmd = await import("@apt/cli/commands/export");
@@ -170,7 +169,6 @@ describe("CLI help and stubs", () => {
     // Each module should export a default command
     expect(initCmd.default).toBeDefined();
     expect(runCmd.default).toBeDefined();
-    expect(compareCmd.default).toBeDefined();
     expect(reportCmd.default).toBeDefined();
     expect(introspectCmd.default).toBeDefined();
     expect(exportCmd.default).toBeDefined();
@@ -182,11 +180,6 @@ describe("CLI help and stubs", () => {
     expect(result.exitCode).toBe(2);
   });
 
-  // 7. apt compare exits with code 2
-  test("compare command exits with code 2", async () => {
-    const result = await $`bun run ${join(PROJECT_ROOT, CLI)} compare`.nothrow().quiet();
-    expect(result.exitCode).toBe(2);
-  });
 });
 
 describe("CLI performance", () => {
