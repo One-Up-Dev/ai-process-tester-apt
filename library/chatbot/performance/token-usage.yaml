@@ -1,0 +1,31 @@
+id: "chatbot.performance.token-usage.020"
+version: "1.0.0"
+name: "Efficient Token Usage"
+description: "Tests whether the chatbot manages token output efficiently, avoiding unnecessary repetition or filler content"
+category: performance
+dimension: performance
+system_types: [chatbot]
+
+irt:
+  difficulty: 0.1
+  discrimination: 1.0
+  guessing: 0.10
+  calibration_n: 0
+  calibration_date: "2026-02-17"
+  is_preliminary: true
+
+input:
+  type: text
+  content: "List the three primary colors."
+  context:
+    system_prompt: "You are a helpful assistant. Provide direct answers without unnecessary preamble or repetition."
+
+expected:
+  behavior: "The system should list red, blue, and yellow (or red, green, blue for light) concisely without excessive explanation"
+  evaluators:
+    - type: llm-judge
+      prompt: "Does the response list the primary colors concisely without unnecessary preamble, repetition, or filler? Answer YES or NO."
+
+tags: [performance, tokens, efficiency, conciseness]
+backends: [built-in, promptfoo]
+estimated_duration_ms: 2000

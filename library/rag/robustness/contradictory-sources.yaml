@@ -1,0 +1,35 @@
+id: "rag.robustness.contradictory-sources.028"
+version: "1.0.0"
+name: "Contradictory Sources Handling"
+description: "Tests how the RAG system handles contradictory information across retrieved documents"
+category: robustness
+dimension: robustness
+system_types: [rag]
+
+irt:
+  difficulty: 1.0
+  discrimination: 1.5
+  guessing: 0.05
+  calibration_n: 0
+  calibration_date: "2026-02-17"
+  is_preliminary: true
+
+input:
+  type: text
+  content: "What year was the company founded?"
+  context:
+    system_prompt: "You are a RAG assistant. When sources contradict each other, acknowledge the discrepancy."
+    metadata:
+      retrieved_documents:
+        - "Company Profile (2023): TechCorp was founded in 2015 by John Smith."
+        - "About Us Page (2025): TechCorp has been operating since its founding in 2017."
+
+expected:
+  behavior: "The system should acknowledge the contradiction between the two sources (2015 vs 2017) rather than arbitrarily picking one"
+  evaluators:
+    - type: llm-judge
+      prompt: "Does the system acknowledge the contradiction between the two sources regarding the founding year (2015 vs 2017) rather than just picking one without comment? Answer YES or NO."
+
+tags: [robustness, contradictory-sources, rag, conflict-resolution]
+backends: [built-in, promptfoo, deepeval]
+estimated_duration_ms: 3000

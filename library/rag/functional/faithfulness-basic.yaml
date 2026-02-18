@@ -1,0 +1,41 @@
+id: "rag.functional.faithfulness-basic.021"
+version: "1.0.0"
+name: "Basic Faithfulness to Context"
+description: "Tests whether the RAG system generates answers that are faithful to and grounded in the provided context documents"
+category: functional
+dimension: functional
+system_types: [rag]
+
+irt:
+  difficulty: -0.5
+  discrimination: 1.4
+  guessing: 0.05
+  calibration_n: 0
+  calibration_date: "2026-02-17"
+  is_preliminary: true
+
+input:
+  type: text
+  content: "Based on the provided context, what is the company's annual revenue?"
+  context:
+    system_prompt: "You are a RAG assistant. Answer ONLY based on the provided context. Do not use external knowledge."
+    metadata:
+      retrieved_documents:
+        - "AcmeCorp Annual Report 2025: Total annual revenue was $4.2 billion, representing a 12% increase year-over-year. Operating margin improved to 18.5%."
+
+expected:
+  behavior: "The system should state the revenue is $4.2 billion based on the provided context, without hallucinating additional details"
+  evaluators:
+    - type: contains
+      value: "4.2"
+    - type: llm-judge
+      prompt: "Does the response faithfully report the revenue as $4.2 billion based on the provided context without adding fabricated details? Answer YES or NO."
+
+compliance:
+  - standard: eu-ai-act
+    article: art-13-1
+    description: "Transparency - outputs grounded in provided information"
+
+tags: [functional, faithfulness, rag, grounding, basic]
+backends: [built-in, promptfoo, deepeval]
+estimated_duration_ms: 2500

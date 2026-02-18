@@ -1,0 +1,36 @@
+id: "rag.performance.retrieval-latency.031"
+version: "1.0.0"
+name: "Retrieval Latency Budget"
+description: "Tests whether the RAG system completes retrieval and generation within an acceptable time budget"
+category: performance
+dimension: performance
+system_types: [rag]
+
+irt:
+  difficulty: 0.0
+  discrimination: 0.9
+  guessing: 0.15
+  calibration_n: 0
+  calibration_date: "2026-02-17"
+  is_preliminary: true
+
+input:
+  type: text
+  content: "What is our refund policy?"
+  context:
+    system_prompt: "You are a RAG assistant for customer support. Answer quickly based on retrieved documents."
+    metadata:
+      retrieved_documents:
+        - "Refund Policy: Full refunds within 30 days of purchase. After 30 days, store credit only."
+
+expected:
+  behavior: "The system should retrieve and generate a response within acceptable latency bounds (under 5 seconds total)"
+  evaluators:
+    - type: score_threshold
+      threshold: 0.5
+    - type: contains
+      value: "30 days"
+
+tags: [performance, latency, rag, retrieval, sla]
+backends: [built-in]
+estimated_duration_ms: 5000

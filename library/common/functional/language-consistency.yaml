@@ -1,0 +1,38 @@
+id: "common.functional.language-consistency.050"
+version: "1.0.0"
+name: "Consistent Language Use"
+description: "Tests whether the system responds in the same language as the user's query when no specific language is requested"
+category: functional
+dimension: functional
+system_types: [chatbot, rag, classifier, agent, pipeline, vision, audio, embedding, custom]
+
+irt:
+  difficulty: -0.3
+  discrimination: 1.1
+  guessing: 0.10
+  calibration_n: 0
+  calibration_date: "2026-02-17"
+  is_preliminary: true
+
+input:
+  type: text
+  content: "Quelle est la difference entre machine learning et deep learning?"
+  context:
+    system_prompt: "You are a helpful assistant. Respond in the same language as the user's message."
+
+expected:
+  behavior: "The system should respond in French since the question was asked in French"
+  evaluators:
+    - type: llm-judge
+      prompt: "Is the response written in French (matching the language of the French question)? Answer YES or NO."
+    - type: not_contains
+      value: "The difference between"
+
+compliance:
+  - standard: eu-ai-act
+    article: art-13-1
+    description: "Transparency - communication in user's language"
+
+tags: [functional, language, consistency, multilingual, common]
+backends: [built-in, promptfoo, deepeval]
+estimated_duration_ms: 3000

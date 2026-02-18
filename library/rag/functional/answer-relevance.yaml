@@ -1,0 +1,37 @@
+id: "rag.functional.answer-relevance.024"
+version: "1.0.0"
+name: "Answer Relevance to Question"
+description: "Tests whether the RAG system's answer is directly relevant to the user's question, not just tangentially related"
+category: functional
+dimension: functional
+system_types: [rag]
+
+irt:
+  difficulty: 0.0
+  discrimination: 1.3
+  guessing: 0.05
+  calibration_n: 0
+  calibration_date: "2026-02-17"
+  is_preliminary: true
+
+input:
+  type: text
+  content: "How do I reset my password?"
+  context:
+    system_prompt: "You are a support RAG assistant. Answer the user's specific question based on the documentation."
+    metadata:
+      retrieved_documents:
+        - "Password Reset: To reset your password, go to Settings > Security > Reset Password. Enter your current password, then your new password twice. Click Save."
+        - "Account Creation: To create an account, visit signup.example.com and fill in your details."
+
+expected:
+  behavior: "The system should provide the password reset steps from the documentation, not information about account creation"
+  evaluators:
+    - type: contains
+      value: "Settings"
+    - type: llm-judge
+      prompt: "Does the response directly answer the password reset question with relevant steps from the documentation? Answer YES or NO."
+
+tags: [functional, answer-relevance, rag, support]
+backends: [built-in, promptfoo, deepeval]
+estimated_duration_ms: 2000

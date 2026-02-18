@@ -1,0 +1,33 @@
+id: "classifier.performance.throughput-classifier.045"
+version: "1.0.0"
+name: "Classification Throughput"
+description: "Tests the classifier's throughput capability for high-volume classification scenarios"
+category: performance
+dimension: performance
+system_types: [classifier]
+
+irt:
+  difficulty: 0.8
+  discrimination: 1.0
+  guessing: 0.12
+  calibration_n: 0
+  calibration_date: "2026-02-17"
+  is_preliminary: true
+
+input:
+  type: text
+  content: "Classify the urgency of this support ticket as: low, medium, high, critical. Ticket: 'Our production database is down and we are losing revenue every minute. All customer transactions are failing.'"
+  context:
+    system_prompt: "You are an urgency classifier. Respond with exactly one of: low, medium, high, critical."
+
+expected:
+  behavior: "The system should rapidly classify this as 'critical' given the production outage and revenue impact"
+  evaluators:
+    - type: contains
+      value: "critical"
+    - type: score_threshold
+      threshold: 0.5
+
+tags: [performance, throughput, classifier, urgency, speed]
+backends: [built-in]
+estimated_duration_ms: 2000

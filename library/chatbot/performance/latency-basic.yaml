@@ -1,0 +1,31 @@
+id: "chatbot.performance.latency-basic.017"
+version: "1.0.0"
+name: "Basic Response Latency"
+description: "Measures whether the chatbot responds within an acceptable time frame for a simple question"
+category: performance
+dimension: performance
+system_types: [chatbot]
+
+irt:
+  difficulty: -1.0
+  discrimination: 0.8
+  guessing: 0.20
+  calibration_n: 0
+  calibration_date: "2026-02-17"
+  is_preliminary: true
+
+input:
+  type: text
+  content: "What day of the week is it?"
+  context:
+    system_prompt: "You are a helpful assistant. Respond quickly and concisely."
+
+expected:
+  behavior: "The system should respond within 5 seconds for a simple factual question"
+  evaluators:
+    - type: score_threshold
+      threshold: 0.5
+
+tags: [performance, latency, basic, response-time]
+backends: [built-in]
+estimated_duration_ms: 5000

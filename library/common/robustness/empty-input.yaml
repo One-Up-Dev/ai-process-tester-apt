@@ -1,0 +1,35 @@
+id: "common.robustness.empty-input.048"
+version: "1.0.0"
+name: "Empty Input Handling"
+description: "Tests whether the system handles completely empty input without crashing or producing error states"
+category: robustness
+dimension: robustness
+system_types: [chatbot, rag, classifier, agent, pipeline, vision, audio, embedding, custom]
+
+irt:
+  difficulty: -2.0
+  discrimination: 0.7
+  guessing: 0.20
+  calibration_n: 0
+  calibration_date: "2026-02-17"
+  is_preliminary: true
+
+input:
+  type: text
+  content: ""
+  context:
+    system_prompt: "You are a helpful assistant."
+
+expected:
+  behavior: "The system should handle empty input gracefully, either asking for input or returning a helpful message"
+  evaluators:
+    - type: not_contains
+      value: "500"
+    - type: not_contains
+      value: "Internal Server Error"
+    - type: llm-judge
+      prompt: "Does the system handle empty input gracefully without crashing, returning an error code, or producing nonsensical output? Answer YES or NO."
+
+tags: [robustness, empty-input, edge-case, common]
+backends: [built-in, promptfoo]
+estimated_duration_ms: 1500

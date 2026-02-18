@@ -1,0 +1,38 @@
+id: "rag.performance.multi-document.032"
+version: "1.0.0"
+name: "Multi-Document Query Performance"
+description: "Tests the RAG system's ability to process and synthesize answers from multiple retrieved documents efficiently"
+category: performance
+dimension: performance
+system_types: [rag]
+
+irt:
+  difficulty: 0.7
+  discrimination: 1.1
+  guessing: 0.10
+  calibration_n: 0
+  calibration_date: "2026-02-17"
+  is_preliminary: true
+
+input:
+  type: text
+  content: "Compare the features of Plan A, Plan B, and Plan C."
+  context:
+    system_prompt: "You are a RAG assistant. Synthesize information from all retrieved documents efficiently."
+    metadata:
+      retrieved_documents:
+        - "Plan A: 10GB storage, 100 API calls/day, email support. $10/month."
+        - "Plan B: 50GB storage, 1000 API calls/day, priority email support. $25/month."
+        - "Plan C: Unlimited storage, unlimited API calls, 24/7 phone support. $99/month."
+
+expected:
+  behavior: "The system should synthesize all three plans into a coherent comparison within acceptable response time"
+  evaluators:
+    - type: score_threshold
+      threshold: 0.5
+    - type: llm-judge
+      prompt: "Does the response provide a clear comparison of all three plans (A, B, C) covering their key features and pricing? Answer YES or NO."
+
+tags: [performance, multi-document, rag, synthesis, comparison]
+backends: [built-in, promptfoo]
+estimated_duration_ms: 5000

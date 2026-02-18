@@ -1,0 +1,25 @@
+{
+  "name": "@apt/cli",
+  "version": "0.0.1",
+  "type": "module",
+  "bin": {
+    "apt": "./src/cli/index.ts"
+  },
+  "scripts": {
+    "dev": "bun run src/cli/index.ts",
+    "typecheck": "bun x tsc --noEmit",
+    "test": "bun test",
+    "lint": "bun x biome check .",
+    "lint:fix": "bun x biome check --write ."
+  },
+  "dependencies": {
+    "citty": "^0.1.6",
+    "consola": "^3.4.0",
+    "yaml": "^2.7.0",
+    "zod": "^3.24.0"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "^1.9.0",
+    "@types/bun": "^1.2.0"
+  }
+}

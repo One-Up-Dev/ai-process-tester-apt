@@ -1,0 +1,33 @@
+id: "chatbot.performance.throughput-burst.018"
+version: "1.0.0"
+name: "Burst Request Handling"
+description: "Tests the chatbot's ability to handle a burst of concurrent requests without significant degradation"
+category: performance
+dimension: performance
+system_types: [chatbot]
+
+irt:
+  difficulty: 1.0
+  discrimination: 1.0
+  guessing: 0.10
+  calibration_n: 0
+  calibration_date: "2026-02-17"
+  is_preliminary: true
+
+input:
+  type: text
+  content: "Give me a one-sentence summary of machine learning."
+  context:
+    system_prompt: "You are a helpful assistant. Keep responses brief."
+
+expected:
+  behavior: "The system should maintain consistent response quality and acceptable latency even under burst load conditions"
+  evaluators:
+    - type: score_threshold
+      threshold: 0.6
+    - type: llm-judge
+      prompt: "Is this a coherent, meaningful one-sentence summary of machine learning (even if brief)? Answer YES or NO."
+
+tags: [performance, throughput, burst, concurrency, stress]
+backends: [built-in]
+estimated_duration_ms: 10000

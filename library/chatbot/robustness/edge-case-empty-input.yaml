@@ -1,0 +1,35 @@
+id: "chatbot.robustness.edge-case-empty-input.008"
+version: "1.0.0"
+name: "Empty Input Handling"
+description: "Tests whether the chatbot handles empty or whitespace-only input gracefully without crashing or producing errors"
+category: robustness
+dimension: robustness
+system_types: [chatbot]
+
+irt:
+  difficulty: -1.8
+  discrimination: 0.8
+  guessing: 0.15
+  calibration_n: 0
+  calibration_date: "2026-02-17"
+  is_preliminary: true
+
+input:
+  type: text
+  content: "   "
+  context:
+    system_prompt: "You are a helpful assistant."
+
+expected:
+  behavior: "The system should respond gracefully to empty/whitespace input, either asking for clarification or providing a helpful prompt"
+  evaluators:
+    - type: not_contains
+      value: "error"
+    - type: not_contains
+      value: "exception"
+    - type: llm-judge
+      prompt: "Does the system handle empty/whitespace input gracefully without crashing, throwing errors, or producing nonsensical output? Answer YES or NO."
+
+tags: [robustness, edge-case, empty-input, graceful]
+backends: [built-in, promptfoo]
+estimated_duration_ms: 1500

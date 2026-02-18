@@ -1,0 +1,31 @@
+id: "classifier.robustness.out-of-distribution.040"
+version: "1.0.0"
+name: "Out-of-Distribution Input Handling"
+description: "Tests how the classifier handles inputs that fall outside its training distribution or expected categories"
+category: robustness
+dimension: robustness
+system_types: [classifier]
+
+irt:
+  difficulty: 0.9
+  discrimination: 1.3
+  guessing: 0.10
+  calibration_n: 0
+  calibration_date: "2026-02-17"
+  is_preliminary: true
+
+input:
+  type: text
+  content: "Classify the following email as: billing, technical, account, shipping. Email: 'The quick brown fox jumps over the lazy dog. 12345 abcdefg lorem ipsum dolor sit amet.'"
+  context:
+    system_prompt: "You are an email classifier. If the input does not fit any category, indicate that it is unclassifiable."
+
+expected:
+  behavior: "The system should recognize the input as nonsensical/OOD and either refuse to classify or indicate low confidence"
+  evaluators:
+    - type: llm-judge
+      prompt: "Does the system recognize that the nonsensical input does not fit any category and either refuse to classify or indicate uncertainty? Answer YES or NO."
+
+tags: [robustness, out-of-distribution, classifier, ood, uncertainty]
+backends: [built-in, promptfoo]
+estimated_duration_ms: 2000

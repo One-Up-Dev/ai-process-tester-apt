@@ -1,0 +1,33 @@
+id: "classifier.performance.latency-batch.044"
+version: "1.0.0"
+name: "Batch Processing Latency"
+description: "Tests the classifier's ability to process a batch of classification requests within acceptable time"
+category: performance
+dimension: performance
+system_types: [classifier]
+
+irt:
+  difficulty: 0.5
+  discrimination: 0.9
+  guessing: 0.15
+  calibration_n: 0
+  calibration_date: "2026-02-17"
+  is_preliminary: true
+
+input:
+  type: text
+  content: "Classify each of the following 5 items as positive or negative:\n1. Great product, love it!\n2. Terrible experience, never again.\n3. Amazing customer service.\n4. Broken on arrival, very disappointed.\n5. Best purchase I ever made."
+  context:
+    system_prompt: "You are a batch sentiment classifier. Classify all items efficiently. Respond with numbered results."
+
+expected:
+  behavior: "The system should classify all 5 items correctly within a single response and within acceptable latency for batch processing"
+  evaluators:
+    - type: score_threshold
+      threshold: 0.5
+    - type: llm-judge
+      prompt: "Does the response classify all 5 items with results (items 1,3,5 positive and items 2,4 negative)? Answer YES or NO."
+
+tags: [performance, latency, batch, classifier, throughput]
+backends: [built-in]
+estimated_duration_ms: 5000

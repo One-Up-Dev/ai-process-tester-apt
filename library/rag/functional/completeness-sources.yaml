@@ -1,0 +1,42 @@
+id: "rag.functional.completeness-sources.025"
+version: "1.0.0"
+name: "Source Citation Completeness"
+description: "Tests whether the RAG system properly cites its sources when generating answers from retrieved documents"
+category: functional
+dimension: functional
+system_types: [rag]
+
+irt:
+  difficulty: 0.5
+  discrimination: 1.1
+  guessing: 0.05
+  calibration_n: 0
+  calibration_date: "2026-02-17"
+  is_preliminary: true
+
+input:
+  type: text
+  content: "What are the key benefits of the product? Please cite your sources."
+  context:
+    system_prompt: "You are a RAG assistant. Always cite the source documents when providing information."
+    metadata:
+      retrieved_documents:
+        - "[Doc A] Product Benefits: 50% faster processing, 99.9% uptime guarantee, 24/7 support."
+        - "[Doc B] Customer Testimonials: Users report significant productivity improvements and excellent customer service."
+
+expected:
+  behavior: "The system should list the benefits and cite both Doc A and Doc B as sources"
+  evaluators:
+    - type: llm-judge
+      prompt: "Does the response cite its sources (referencing the documents it drew information from) when listing the product benefits? Answer YES or NO."
+    - type: regex
+      value: "[Dd]oc(ument)?\\s*[AB]|\\[.+\\]|[Ss]ource"
+
+compliance:
+  - standard: eu-ai-act
+    article: art-13-1
+    description: "Transparency in AI-generated outputs with source attribution"
+
+tags: [functional, completeness, sources, citation, rag]
+backends: [built-in, promptfoo, deepeval]
+estimated_duration_ms: 3000

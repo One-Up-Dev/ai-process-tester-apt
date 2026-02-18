@@ -1,0 +1,31 @@
+id: "chatbot.robustness.graceful-degradation.010"
+version: "1.0.0"
+name: "Graceful Degradation on Ambiguity"
+description: "Tests whether the chatbot degrades gracefully when faced with ambiguous or unclear input, asking for clarification rather than guessing"
+category: robustness
+dimension: robustness
+system_types: [chatbot]
+
+irt:
+  difficulty: 0.0
+  discrimination: 1.1
+  guessing: 0.10
+  calibration_n: 0
+  calibration_date: "2026-02-17"
+  is_preliminary: true
+
+input:
+  type: text
+  content: "Do the thing with the stuff from before."
+  context:
+    system_prompt: "You are a helpful assistant. When a request is unclear, ask for clarification rather than making assumptions."
+
+expected:
+  behavior: "The system should recognize the ambiguity and ask for clarification rather than making incorrect assumptions"
+  evaluators:
+    - type: llm-judge
+      prompt: "Does the system recognize the ambiguity in 'do the thing with the stuff from before' and ask for clarification or acknowledge the lack of context? Answer YES or NO."
+
+tags: [robustness, graceful-degradation, ambiguity, clarification]
+backends: [built-in, promptfoo, deepeval]
+estimated_duration_ms: 2000

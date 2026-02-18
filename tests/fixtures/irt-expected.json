@@ -1,0 +1,16 @@
+{
+  "fisher_info_at_beta": {
+    "description": "Fisher info should be near max when theta = beta",
+    "item": { "alpha": 2.0, "beta": 0.0, "gamma": 0.0 },
+    "theta": 0.0,
+    "expected_info_approx": 1.0
+  },
+  "normalized_scores": {
+    "theta_0": 50,
+    "theta_neg3": 1,
+    "theta_neg1": 15,
+    "theta_1": 85,
+    "theta_2": 97,
+    "theta_3": 99
+  }
+}

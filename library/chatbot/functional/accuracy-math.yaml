@@ -1,0 +1,33 @@
+id: "chatbot.functional.accuracy-math.004"
+version: "1.0.0"
+name: "Simple Math Operations"
+description: "Tests the chatbot's ability to perform basic arithmetic operations correctly"
+category: functional
+dimension: functional
+system_types: [chatbot]
+
+irt:
+  difficulty: -1.0
+  discrimination: 1.5
+  guessing: 0.08
+  calibration_n: 0
+  calibration_date: "2026-02-17"
+  is_preliminary: true
+
+input:
+  type: text
+  content: "What is 247 multiplied by 18? Show your work step by step."
+  context:
+    system_prompt: "You are a helpful assistant. When asked math questions, show your reasoning and provide the final answer clearly."
+
+expected:
+  behavior: "The system should correctly compute 247 * 18 = 4446 and show the step-by-step calculation"
+  evaluators:
+    - type: contains
+      value: "4446"
+    - type: llm-judge
+      prompt: "Does the response correctly compute 247 * 18 = 4446 and show some reasoning steps? Answer YES or NO."
+
+tags: [functional, accuracy, math, arithmetic]
+backends: [built-in, promptfoo]
+estimated_duration_ms: 3000

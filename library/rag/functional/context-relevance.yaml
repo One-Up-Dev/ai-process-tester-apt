@@ -1,0 +1,40 @@
+id: "rag.functional.context-relevance.023"
+version: "1.0.0"
+name: "Context Relevance Utilization"
+description: "Tests whether the RAG system correctly identifies and uses the most relevant portions of the provided context"
+category: functional
+dimension: functional
+system_types: [rag]
+
+irt:
+  difficulty: 0.3
+  discrimination: 1.2
+  guessing: 0.08
+  calibration_n: 0
+  calibration_date: "2026-02-17"
+  is_preliminary: true
+
+input:
+  type: text
+  content: "What are the system requirements for installing the software?"
+  context:
+    system_prompt: "You are a RAG assistant. Use the most relevant context to answer the question accurately."
+    metadata:
+      retrieved_documents:
+        - "Installation Guide: System Requirements - OS: Windows 10+ or macOS 12+. RAM: minimum 8GB, recommended 16GB. Storage: 2GB free disk space. CPU: 64-bit processor."
+        - "Company History: Founded in 2010, the company has grown to 500 employees worldwide."
+        - "Pricing: The software costs $99/year for individual licenses and $499/year for enterprise."
+
+expected:
+  behavior: "The system should use the Installation Guide document and ignore the irrelevant company history and pricing documents"
+  evaluators:
+    - type: contains
+      value: "8GB"
+    - type: not_contains
+      value: "500 employees"
+    - type: not_contains
+      value: "$99"
+
+tags: [functional, context-relevance, rag, filtering]
+backends: [built-in, promptfoo, deepeval]
+estimated_duration_ms: 2500

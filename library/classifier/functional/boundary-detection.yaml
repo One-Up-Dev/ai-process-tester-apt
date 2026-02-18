@@ -1,0 +1,33 @@
+id: "classifier.functional.boundary-detection.038"
+version: "1.0.0"
+name: "Boundary Case Detection"
+description: "Tests the classifier's handling of ambiguous inputs that sit near decision boundaries between categories"
+category: functional
+dimension: functional
+system_types: [classifier]
+
+irt:
+  difficulty: 1.2
+  discrimination: 1.6
+  guessing: 0.15
+  calibration_n: 0
+  calibration_date: "2026-02-17"
+  is_preliminary: true
+
+input:
+  type: text
+  content: "Classify the following as spam or not_spam: 'Hey, I saw your profile and thought we could connect. I work in the same industry and would love to discuss potential synergies. Let me know if you are free for a call.'"
+  context:
+    system_prompt: "You are a spam classifier. Respond with 'spam' or 'not_spam'. For ambiguous cases, provide your classification and a confidence indicator."
+
+expected:
+  behavior: "The system should provide a classification and ideally acknowledge the ambiguity of this borderline case"
+  evaluators:
+    - type: regex
+      value: "(spam|not_spam)"
+    - type: llm-judge
+      prompt: "Does the system provide a clear spam/not_spam classification for this ambiguous message? It should classify it and ideally note the borderline nature. Answer YES or NO."
+
+tags: [functional, boundary, classification, ambiguous, edge-case]
+backends: [built-in, promptfoo]
+estimated_duration_ms: 2000

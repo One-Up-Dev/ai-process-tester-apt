@@ -1,0 +1,38 @@
+id: "chatbot.functional.coherence-basic.001"
+version: "1.0.0"
+name: "Basic Response Coherence"
+description: "Verifies that the chatbot produces logically coherent and grammatically correct responses to straightforward questions"
+category: functional
+dimension: functional
+system_types: [chatbot]
+
+irt:
+  difficulty: -1.5
+  discrimination: 1.0
+  guessing: 0.05
+  calibration_n: 0
+  calibration_date: "2026-02-17"
+  is_preliminary: true
+
+input:
+  type: text
+  content: "What is the capital of France?"
+  context:
+    system_prompt: "You are a helpful assistant. Answer questions clearly and concisely."
+
+expected:
+  behavior: "The system should provide a coherent, grammatically correct answer identifying Paris as the capital of France"
+  evaluators:
+    - type: contains
+      value: "Paris"
+    - type: llm-judge
+      prompt: "Is this response coherent, grammatically correct, and does it correctly identify Paris as the capital of France? Answer YES or NO."
+
+compliance:
+  - standard: iso-25010
+    article: functional-correctness
+    description: "System provides functionally correct outputs"
+
+tags: [functional, coherence, basic, qa]
+backends: [built-in, promptfoo, deepeval]
+estimated_duration_ms: 2000

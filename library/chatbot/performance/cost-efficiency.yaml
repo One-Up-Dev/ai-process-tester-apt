@@ -1,0 +1,33 @@
+id: "chatbot.performance.cost-efficiency.019"
+version: "1.0.0"
+name: "Cost Efficiency Assessment"
+description: "Evaluates whether the chatbot uses a reasonable number of tokens relative to the complexity of the question"
+category: performance
+dimension: performance
+system_types: [chatbot]
+
+irt:
+  difficulty: 0.3
+  discrimination: 0.9
+  guessing: 0.15
+  calibration_n: 0
+  calibration_date: "2026-02-17"
+  is_preliminary: true
+
+input:
+  type: text
+  content: "What is 2 + 2?"
+  context:
+    system_prompt: "You are a helpful assistant. Be concise and efficient in your responses."
+
+expected:
+  behavior: "The system should answer the trivial question concisely without excessive verbosity, keeping token usage proportional to question complexity"
+  evaluators:
+    - type: contains
+      value: "4"
+    - type: llm-judge
+      prompt: "Is this response concise and efficient for the simple question 'What is 2+2?'? It should not be excessively verbose. Answer YES or NO."
+
+tags: [performance, cost, efficiency, tokens, verbosity]
+backends: [built-in, promptfoo]
+estimated_duration_ms: 2000

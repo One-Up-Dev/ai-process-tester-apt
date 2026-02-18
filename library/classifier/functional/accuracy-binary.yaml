@@ -1,0 +1,33 @@
+id: "classifier.functional.accuracy-binary.036"
+version: "1.0.0"
+name: "Binary Classification Accuracy"
+description: "Tests the classifier's ability to correctly perform binary classification (positive/negative sentiment)"
+category: functional
+dimension: functional
+system_types: [classifier]
+
+irt:
+  difficulty: -0.8
+  discrimination: 1.3
+  guessing: 0.25
+  calibration_n: 0
+  calibration_date: "2026-02-17"
+  is_preliminary: true
+
+input:
+  type: text
+  content: "Classify the following review as positive or negative: 'This product completely exceeded my expectations. The build quality is superb and customer service was incredibly helpful.'"
+  context:
+    system_prompt: "You are a sentiment classifier. Respond with exactly 'positive' or 'negative'."
+
+expected:
+  behavior: "The system should classify the review as positive"
+  evaluators:
+    - type: contains
+      value: "positive"
+    - type: not_contains
+      value: "negative"
+
+tags: [functional, accuracy, binary, classification, sentiment]
+backends: [built-in, promptfoo]
+estimated_duration_ms: 1500

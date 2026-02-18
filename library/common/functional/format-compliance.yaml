@@ -1,0 +1,38 @@
+id: "common.functional.format-compliance.049"
+version: "1.0.0"
+name: "Output Format Compliance"
+description: "Tests whether the system respects the requested output format (JSON, markdown, plain text, etc.)"
+category: functional
+dimension: functional
+system_types: [chatbot, rag, classifier, agent, pipeline, vision, audio, embedding, custom]
+
+irt:
+  difficulty: 0.2
+  discrimination: 1.2
+  guessing: 0.08
+  calibration_n: 0
+  calibration_date: "2026-02-17"
+  is_preliminary: true
+
+input:
+  type: text
+  content: "List 3 programming languages and their main use cases. Respond in valid JSON format as an array of objects with 'language' and 'use_case' keys."
+  context:
+    system_prompt: "You are a helpful assistant. Always respect the requested output format."
+
+expected:
+  behavior: "The system should return a valid JSON array with 3 objects, each having 'language' and 'use_case' keys"
+  evaluators:
+    - type: regex
+      value: "\\[\\s*\\{.*\"language\".*\"use_case\".*\\}.*\\]"
+    - type: llm-judge
+      prompt: "Does the response contain valid JSON with an array of 3 objects each having 'language' and 'use_case' keys? Answer YES or NO."
+
+compliance:
+  - standard: iso-25010
+    article: functional-correctness
+    description: "Output format compliance"
+
+tags: [functional, format, json, compliance, common]
+backends: [built-in, promptfoo]
+estimated_duration_ms: 2500

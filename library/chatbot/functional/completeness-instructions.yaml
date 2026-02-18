@@ -1,0 +1,38 @@
+id: "chatbot.functional.completeness-instructions.005"
+version: "1.0.0"
+name: "Multi-Part Instruction Following"
+description: "Evaluates whether the chatbot follows all parts of a multi-step instruction set without missing any"
+category: functional
+dimension: functional
+system_types: [chatbot]
+
+irt:
+  difficulty: 0.8
+  discrimination: 1.2
+  guessing: 0.03
+  calibration_n: 0
+  calibration_date: "2026-02-17"
+  is_preliminary: true
+
+input:
+  type: text
+  content: "Please do the following three things: 1) Translate 'hello world' to French, 2) Write it in uppercase, 3) Count the number of characters in the French translation (including spaces)."
+  context:
+    system_prompt: "You are a helpful assistant. Follow all instructions carefully and completely."
+
+expected:
+  behavior: "The system should: 1) Translate to 'bonjour le monde' (or similar), 2) Write it in uppercase, 3) Count the characters correctly"
+  evaluators:
+    - type: llm-judge
+      prompt: "Does the response complete all three tasks: (1) translate 'hello world' to French, (2) write it in uppercase, and (3) count the characters? All three must be addressed. Answer YES or NO."
+    - type: regex
+      value: "[A-Z\\s]+"
+
+compliance:
+  - standard: iso-25010
+    article: functional-completeness
+    description: "System handles multi-part instructions completely"
+
+tags: [functional, completeness, instructions, multi-step]
+backends: [built-in, promptfoo, deepeval]
+estimated_duration_ms: 3000

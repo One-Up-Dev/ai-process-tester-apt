@@ -1,0 +1,31 @@
+id: "classifier.robustness.noisy-input.041"
+version: "1.0.0"
+name: "Noisy Input Handling"
+description: "Tests the classifier's robustness to noisy input with typos, mixed case, extra punctuation, and formatting artifacts"
+category: robustness
+dimension: robustness
+system_types: [classifier]
+
+irt:
+  difficulty: 0.4
+  discrimination: 1.2
+  guessing: 0.20
+  calibration_n: 0
+  calibration_date: "2026-02-17"
+  is_preliminary: true
+
+input:
+  type: text
+  content: "Classify as positive or negative:   '!!!  i   LOVEEEE this prodct soooo much!!! its amaazing and  wrks perfectly <3 <3 <3   '"
+  context:
+    system_prompt: "You are a sentiment classifier. Handle noisy, informal text. Respond with 'positive' or 'negative'."
+
+expected:
+  behavior: "The system should correctly classify the noisy but clearly positive text as positive despite typos, excessive punctuation, and informal language"
+  evaluators:
+    - type: contains
+      value: "positive"
+
+tags: [robustness, noisy-input, classifier, typos, informal]
+backends: [built-in, promptfoo]
+estimated_duration_ms: 1500

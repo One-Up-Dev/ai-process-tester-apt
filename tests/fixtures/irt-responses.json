@@ -1,0 +1,17 @@
+{
+  "theta_positive_1": {
+    "true_theta": 1.0,
+    "items": ["item-01", "item-02", "item-03", "item-04", "item-05"],
+    "responses": [1, 1, 0, 1, 1]
+  },
+  "theta_negative_1": {
+    "true_theta": -1.0,
+    "items": ["item-01", "item-02", "item-03", "item-04", "item-05"],
+    "responses": [1, 0, 0, 0, 0]
+  },
+  "theta_zero": {
+    "true_theta": 0.0,
+    "items": ["item-01", "item-02", "item-03", "item-04", "item-05"],
+    "responses": [1, 1, 0, 1, 0]
+  }
+}

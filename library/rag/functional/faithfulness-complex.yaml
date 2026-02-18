@@ -1,0 +1,37 @@
+id: "rag.functional.faithfulness-complex.022"
+version: "1.0.0"
+name: "Complex Multi-Hop Reasoning"
+description: "Tests the RAG system's ability to perform multi-hop reasoning across multiple context documents to derive a correct answer"
+category: functional
+dimension: functional
+system_types: [rag]
+
+irt:
+  difficulty: 1.2
+  discrimination: 1.6
+  guessing: 0.03
+  calibration_n: 0
+  calibration_date: "2026-02-17"
+  is_preliminary: true
+
+input:
+  type: text
+  content: "Who is the CEO of the company that acquired DataFlow in 2024?"
+  context:
+    system_prompt: "You are a RAG assistant. Synthesize information from multiple documents to answer questions. Only use provided context."
+    metadata:
+      retrieved_documents:
+        - "Press Release: TechGiant Inc. completed the acquisition of DataFlow Systems on March 15, 2024, for $800 million."
+        - "TechGiant Inc. Leadership: Sarah Chen has served as CEO of TechGiant Inc. since January 2022."
+
+expected:
+  behavior: "The system should connect information across both documents to determine Sarah Chen is the CEO of TechGiant, which acquired DataFlow"
+  evaluators:
+    - type: contains
+      value: "Sarah Chen"
+    - type: llm-judge
+      prompt: "Does the response correctly identify Sarah Chen as the CEO by connecting information across multiple documents (TechGiant acquired DataFlow, and Sarah Chen is CEO of TechGiant)? Answer YES or NO."
+
+tags: [functional, faithfulness, rag, multi-hop, reasoning, complex]
+backends: [built-in, promptfoo, deepeval]
+estimated_duration_ms: 3500

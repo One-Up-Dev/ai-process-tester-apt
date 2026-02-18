@@ -1,0 +1,31 @@
+id: "classifier.functional.accuracy-multi-class.037"
+version: "1.0.0"
+name: "Multi-Class Classification Accuracy"
+description: "Tests the classifier's ability to correctly categorize text into one of multiple predefined classes"
+category: functional
+dimension: functional
+system_types: [classifier]
+
+irt:
+  difficulty: 0.3
+  discrimination: 1.4
+  guessing: 0.10
+  calibration_n: 0
+  calibration_date: "2026-02-17"
+  is_preliminary: true
+
+input:
+  type: text
+  content: "Classify the following support ticket into one of these categories: billing, technical, account, shipping. Ticket: 'My order #45678 has been stuck in transit for 2 weeks and the tracking page shows no updates.'"
+  context:
+    system_prompt: "You are a support ticket classifier. Respond with exactly one category: billing, technical, account, or shipping."
+
+expected:
+  behavior: "The system should classify the ticket as 'shipping' since it concerns package transit and tracking"
+  evaluators:
+    - type: contains
+      value: "shipping"
+
+tags: [functional, accuracy, multi-class, classification, support]
+backends: [built-in, promptfoo]
+estimated_duration_ms: 1500

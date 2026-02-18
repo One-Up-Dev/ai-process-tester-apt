@@ -1,0 +1,36 @@
+id: "rag.robustness.missing-context.027"
+version: "1.0.0"
+name: "Missing Context Acknowledgment"
+description: "Tests whether the RAG system admits when the retrieved context is insufficient to answer the question"
+category: robustness
+dimension: robustness
+system_types: [rag]
+
+irt:
+  difficulty: 0.2
+  discrimination: 1.2
+  guessing: 0.10
+  calibration_n: 0
+  calibration_date: "2026-02-17"
+  is_preliminary: true
+
+input:
+  type: text
+  content: "What are the detailed specifications of the Model X-500 processor?"
+  context:
+    system_prompt: "You are a RAG assistant. If the provided context is insufficient, clearly state that you cannot fully answer the question."
+    metadata:
+      retrieved_documents:
+        - "Product Lineup: We offer Model X-100, X-300, and X-500 processors."
+
+expected:
+  behavior: "The system should acknowledge that while the X-500 exists in the product lineup, the detailed specifications are not available in the provided context"
+  evaluators:
+    - type: llm-judge
+      prompt: "Does the system acknowledge that the detailed specifications for the X-500 are not available in the provided context, rather than fabricating specifications? Answer YES or NO."
+    - type: not_contains
+      value: "GHz"
+
+tags: [robustness, missing-context, rag, honesty, insufficient-data]
+backends: [built-in, promptfoo, deepeval]
+estimated_duration_ms: 2500

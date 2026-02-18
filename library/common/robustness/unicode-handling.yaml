@@ -1,0 +1,33 @@
+id: "common.robustness.unicode-handling.047"
+version: "1.0.0"
+name: "Unicode Input Handling"
+description: "Tests whether the system correctly handles various Unicode characters including emoji, CJK, RTL text, and special characters"
+category: robustness
+dimension: robustness
+system_types: [chatbot, rag, classifier, agent, pipeline, vision, audio, embedding, custom]
+
+irt:
+  difficulty: 0.1
+  discrimination: 1.0
+  guessing: 0.10
+  calibration_n: 0
+  calibration_date: "2026-02-17"
+  is_preliminary: true
+
+input:
+  type: text
+  content: "Please repeat back the following text exactly: 'Hello World' in Japanese is 'konnichiwa sekai'. The Arabic greeting is 'marhaba'. Here are some symbols: +, -, =, @, #."
+  context:
+    system_prompt: "You are a helpful assistant. Handle all text encodings and character sets correctly."
+
+expected:
+  behavior: "The system should handle the mixed-script input without corruption, garbling, or errors"
+  evaluators:
+    - type: not_contains
+      value: "error"
+    - type: llm-judge
+      prompt: "Does the system handle the input containing references to multiple languages and special characters without errors, garbling, or corruption? Answer YES or NO."
+
+tags: [robustness, unicode, encoding, multilingual, common]
+backends: [built-in, promptfoo]
+estimated_duration_ms: 2000

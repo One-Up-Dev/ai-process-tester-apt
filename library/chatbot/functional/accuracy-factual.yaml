@@ -1,0 +1,37 @@
+id: "chatbot.functional.accuracy-factual.003"
+version: "1.0.0"
+name: "Factual Question Accuracy"
+description: "Evaluates the chatbot's ability to answer factual questions with verified, accurate information"
+category: functional
+dimension: functional
+system_types: [chatbot]
+
+irt:
+  difficulty: -0.5
+  discrimination: 1.1
+  guessing: 0.10
+  calibration_n: 0
+  calibration_date: "2026-02-17"
+  is_preliminary: true
+
+input:
+  type: text
+  content: "How many planets are in our solar system, and can you name them in order from the Sun?"
+  context:
+    system_prompt: "You are a knowledgeable assistant. Provide accurate factual information."
+
+expected:
+  behavior: "The system should correctly state there are 8 planets and list them in order: Mercury, Venus, Earth, Mars, Jupiter, Saturn, Uranus, Neptune"
+  evaluators:
+    - type: regex
+      value: "(8|eight)"
+    - type: contains
+      value: "Mercury"
+    - type: contains
+      value: "Neptune"
+    - type: not_contains
+      value: "Pluto"
+
+tags: [functional, accuracy, factual, knowledge]
+backends: [built-in, promptfoo, deepeval]
+estimated_duration_ms: 2500

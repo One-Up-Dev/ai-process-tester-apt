@@ -1,0 +1,33 @@
+id: "chatbot.robustness.edge-case-long-input.009"
+version: "1.0.0"
+name: "Long Input Handling"
+description: "Tests whether the chatbot handles very long input text without crashing, truncating silently, or producing degraded output"
+category: robustness
+dimension: robustness
+system_types: [chatbot]
+
+irt:
+  difficulty: 0.2
+  discrimination: 1.0
+  guessing: 0.10
+  calibration_n: 0
+  calibration_date: "2026-02-17"
+  is_preliminary: true
+
+input:
+  type: text
+  content: "Please summarize the following repeated text and tell me how many times the word 'test' appears: test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test"
+  context:
+    system_prompt: "You are a helpful assistant. Handle long inputs gracefully."
+
+expected:
+  behavior: "The system should process the long input without error and attempt to count or summarize the repeated word"
+  evaluators:
+    - type: not_contains
+      value: "error"
+    - type: llm-judge
+      prompt: "Does the system handle the long repetitive input gracefully, attempting to summarize or count the repeated word 'test'? Answer YES or NO."
+
+tags: [robustness, edge-case, long-input, stress]
+backends: [built-in, promptfoo]
+estimated_duration_ms: 4000
