@@ -159,6 +159,22 @@ describe("BuiltInBackend", () => {
     expect(result.score).toBe(1);
   });
 
+  // 9b. llm-judge heuristic fails on short responses
+  test("llm-judge heuristic fails on short responses", async () => {
+    const adapter = createMockAdapter("short");
+    const planned = makePlannedTest({
+      metadata: {
+        evaluators: [{ type: "llm-judge", prompt: "Is this relevant?" }],
+      },
+    });
+    const result = await backend.execute(planned, adapter);
+    expect(result.passed).toBe(false);
+    expect(result.score).toBe(0);
+    expect(
+      (result.metadata.evaluator_results as { passed: boolean }[])[0].passed,
+    ).toBe(false);
+  });
+
   // 10. multiple evaluators -> proportional score
   test("execute with multiple evaluators gives proportional score", async () => {
     const adapter = createMockAdapter("Hello World");

@@ -46,7 +46,7 @@ export function welchTTest(
   const v2 = n2 > 1 ? group2.reduce((a, b) => a + (b - m2) ** 2, 0) / (n2 - 1) : 0;
 
   const se = Math.sqrt(v1 / n1 + v2 / n2);
-  if (se === 0) return { t: 0, df: n1 + n2 - 2, p: 1 };
+  if (se < 1e-10) return { t: 0, df: n1 + n2 - 2, p: 1 };
 
   const t = (m1 - m2) / se;
   const df = (v1 / n1 + v2 / n2) ** 2 / ((v1 / n1) ** 2 / (n1 - 1) + (v2 / n2) ** 2 / (n2 - 1));

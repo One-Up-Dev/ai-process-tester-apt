@@ -123,7 +123,12 @@ export default defineCommand({
 
       // Override replications
       if (args.replications) {
-        config.execution.replications = Number.parseInt(args.replications, 10);
+        const r = Number.parseInt(args.replications, 10);
+        if (Number.isNaN(r) || r < 1) {
+          consola.error("--replications must be a positive integer");
+          process.exit(2);
+        }
+        config.execution.replications = r;
       }
 
       // Override auth token (arg > env var)

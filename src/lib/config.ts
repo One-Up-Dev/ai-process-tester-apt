@@ -32,7 +32,14 @@ function findConfigFile(startDir?: string): string | null {
 /** Interpolate ${VAR} with Bun.env */
 function interpolateEnvVars(obj: unknown): unknown {
   if (typeof obj === "string") {
-    return obj.replace(/\$\{(\w+)\}/g, (_, varName) => Bun.env[varName] ?? "");
+    return obj.replace(/\$\{(\w+)\}/g, (match, varName) => {
+      const value = Bun.env[varName];
+      if (value === undefined) {
+        console.warn(`Warning: environment variable ${varName} is not set`);
+        return "";
+      }
+      return value;
+    });
   }
   if (Array.isArray(obj)) return obj.map(interpolateEnvVars);
   if (obj && typeof obj === "object") {

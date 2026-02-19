@@ -48,7 +48,7 @@ export class NoiseIsolator {
     const mean = scores.reduce((a, b) => a + b, 0) / scores.length;
     const variance = scores.reduce((a, b) => a + (b - mean) ** 2, 0) / scores.length;
     const stddev = Math.sqrt(variance);
-    const cv = mean > 0 ? stddev / mean : 0;
+    const cv = mean > 1e-6 ? stddev / mean : 0;
 
     // Pick median result
     const sorted = [...results].sort((a, b) => a.score - b.score);

@@ -94,6 +94,24 @@ describe("estimateThetaMLE", () => {
     expect(result.se).toBeLessThan(0.5);
   });
 
+  test("falls back to EAP when MLE fails to converge", () => {
+    // All items answered correctly — MLE pushes theta to +infinity, shouldn't converge cleanly
+    const items: IRTItem[] = Array.from({ length: 3 }, (_, i) => ({
+      id: `item-${i}`,
+      alpha: 1.0,
+      beta: 0.0,
+      gamma: 0,
+      dimension: "robustness" as const,
+    }));
+    const responses: (0 | 1)[] = items.map(() => 1);
+
+    const result = estimateThetaMLE(items, responses);
+    // Should still return a valid result (either converged at max or fell back to EAP)
+    expect(result.theta).toBeDefined();
+    expect(Number.isFinite(result.theta)).toBe(true);
+    expect(result.theta).toBeGreaterThan(0); // All correct → high ability
+  });
+
   test("Low discrimination items yield slower convergence (higher SE)", () => {
     const lowAlpha: IRTItem[] = [];
     for (let i = 0; i < 10; i++) {
